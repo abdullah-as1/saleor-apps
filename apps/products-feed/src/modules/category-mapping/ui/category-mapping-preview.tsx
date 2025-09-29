@@ -20,7 +20,7 @@ export const CategoryMappingPreview = () => {
     return <Text>Loading</Text>;
   }
 
-  if (categories?.length === 0) {
+  if (!categories || categories.length === 0) {
     return <Text>No categories</Text>;
   }
 
@@ -29,7 +29,7 @@ export const CategoryMappingPreview = () => {
       <Text marginBottom={5} as={"h2"} fontSize={5} fontWeight="bold">
         Mapped categories
       </Text>
-      {categories!
+      {categories
         .filter((c) => c.googleCategoryId)
         .map((category) => {
           return (

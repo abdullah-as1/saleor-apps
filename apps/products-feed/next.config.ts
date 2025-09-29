@@ -24,10 +24,6 @@ const nextConfig: NextConfig = {
     "handlebars",
     "handlebars-helpers",
   ],
-
-  basePath: "/products-feed",
-  trailingSlash: true,
-
   webpack: (config, { isServer }) => {
     if (isServer) {
       // Ignore opentelemetry warnings - https://github.com/open-telemetry/opentelemetry-js/issues/4173
