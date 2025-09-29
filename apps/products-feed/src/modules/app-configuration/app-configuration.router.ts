@@ -22,10 +22,13 @@ export const appConfigurationRouter = router({
 
     try {
       const configuration = await getConfig();
+      const rootConfig = configuration.getRootConfig();
 
-      logger.debug("Configuration fetched");
-
-      return configuration.getRootConfig();
+      // Include S3 config with environment fallback for UI display
+      return {
+        ...rootConfig,
+        s3: configuration.getS3Config(), // This now includes env fallback
+      };
     } catch (e) {
       logger.warn("Can't fetch the configuration", { error: e });
       throw new TRPCError({

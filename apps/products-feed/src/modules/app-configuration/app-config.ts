@@ -153,7 +153,39 @@ export class AppConfig {
   }
 
   getS3Config() {
-    return this.rootData.s3;
+    // Priority: metadata config > env config
+    if (this.rootData.s3) {
+      return this.rootData.s3;
+    }
+
+    // Fallback to environment variables
+    const envConfig = this.getS3ConfigFromEnv();
+
+    return envConfig;
+  }
+
+  private getS3ConfigFromEnv() {
+    const bucketName = process.env.S3_BUCKET_NAME;
+    const accessKeyId = process.env.S3_ACCESS_KEY_ID;
+    const secretAccessKey = process.env.S3_SECRET_ACCESS_KEY;
+    const region = process.env.S3_REGION;
+
+    if (!bucketName || !accessKeyId || !secretAccessKey || !region) {
+      return null;
+    }
+
+    try {
+      return s3ConfigSchema.parse({
+        bucketName,
+        accessKeyId,
+        secretAccessKey,
+        region,
+      });
+    } catch (e) {
+      logger.warn("Invalid S3 environment configuration", { error: e });
+
+      return null;
+    }
   }
 
   getAttributeMapping() {
