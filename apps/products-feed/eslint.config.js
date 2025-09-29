@@ -34,4 +34,10 @@ export default [
       ],
     },
   },
+  {
+    name: "saleor-app-products-feed/disable-turbo-env-vars",
+    rules: {
+      "turbo/no-undeclared-env-vars": "off",
+    },
+  },
 ];

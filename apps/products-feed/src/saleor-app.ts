@@ -5,6 +5,7 @@ import { SaleorCloudAPL } from "@saleor/app-sdk/APL/saleor-cloud";
 import { UpstashAPL } from "@saleor/app-sdk/APL/upstash";
 import { SaleorApp } from "@saleor/app-sdk/saleor-app";
 
+import { PostgresAPL } from "@/lib/postgres-apl";
 import { dynamoMainTable } from "@/modules/dynamodb/dynamo-main-table";
 
 const aplType = process.env.APL ?? "file";
@@ -26,6 +27,13 @@ const validateDynamoEnvVariables = () => {
 };
 
 switch (aplType) {
+  case "postgres": {
+    const appName = process.env.APP_NAME || "products-feed";
+
+    apl = new PostgresAPL(appName);
+    break;
+  }
+
   case "dynamodb": {
     validateDynamoEnvVariables();
 
